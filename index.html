@@ -388,7 +388,7 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; font-size: 14px; 
     var f = document.getElementById("enquiry"); if (!f) return;
     var msg = document.getElementById("form-msg"), btn = f.querySelector("button");
     // Cloudflare Turnstile: paste the public Site Key between the quotes to switch it on.
-    var TS_KEY = "";
+    var TS_KEY = "0x4AAAAAAFUhEOBH67Oe5ZSs";
     if (TS_KEY) {
       var w = document.createElement("div"); w.className = "cf-turnstile"; w.setAttribute("data-sitekey", TS_KEY);
       f.insertBefore(w, btn);
