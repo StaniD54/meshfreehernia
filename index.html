@@ -387,6 +387,13 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; font-size: 14px; 
   (function () {
     var f = document.getElementById("enquiry"); if (!f) return;
     var msg = document.getElementById("form-msg"), btn = f.querySelector("button");
+    // Cloudflare Turnstile: paste the public Site Key between the quotes to switch it on.
+    var TS_KEY = "";
+    if (TS_KEY) {
+      var w = document.createElement("div"); w.className = "cf-turnstile"; w.setAttribute("data-sitekey", TS_KEY);
+      f.insertBefore(w, btn);
+      var sc = document.createElement("script"); sc.src = "https://challenges.cloudflare.com/turnstile/v0/api.js"; sc.async = true; sc.defer = true; document.head.appendChild(sc);
+    }
     function say(t, c) { msg.textContent = t; msg.className = "form-msg " + (c || ""); }
     f.addEventListener("submit", function (e) {
       e.preventDefault();
@@ -405,7 +412,7 @@ footer { border-top: 1px solid var(--line); padding-top: 24px; font-size: 14px; 
           else { say("Sorry, the message could not be sent. Please write to s.dabrowiecki@outlook.com.", "err"); }
         })
         .catch(function () { say("Sorry, the message could not be sent. Please write to s.dabrowiecki@outlook.com.", "err"); })
-        .then(function () { btn.disabled = false; });
+        .then(function () { btn.disabled = false; try { if (window.turnstile) window.turnstile.reset(); } catch (e) {} });
     });
   })();
   </script>

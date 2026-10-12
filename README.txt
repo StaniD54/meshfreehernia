@@ -11,3 +11,5 @@ meshfreehernia.org - wdrozenie (Cloudflare Pages)
 5. meshfreehernia.co.uk: Rules -> Redirect Rules -> 301 na https://meshfreehernia.org (zachowaj sciezke).
 6. Test: wyslij formularz na https://meshfreehernia.org i sprawdz skrzynke (temat "English page enquiry: ...").
 Klucza API nie wpisuj do plikow w repozytorium.
+
+Turnstile (anti-spam): create a widget in Cloudflare (Turnstile), put the Site Key in index.html (TS_KEY) and the Secret Key in Pages variable TURNSTILE_SECRET. Until both are set, the form works without it.

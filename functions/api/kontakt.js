@@ -29,6 +29,21 @@ export async function onRequestPost({ request, env }) {
   // Honeypot: bots fill the hidden field. Pretend success and send nothing.
   if (clip(data.website, 200)) return json({ ok: true });
 
+  // Cloudflare Turnstile (active when the TURNSTILE_SECRET variable is set)
+  if (env.TURNSTILE_SECRET) {
+    const token = clip(data["cf-turnstile-response"], 2048);
+    if (!token) return json({ ok: false, error: "captcha" }, 400);
+    const form = new URLSearchParams({ secret: env.TURNSTILE_SECRET, response: token });
+    const ip = request.headers.get("CF-Connecting-IP");
+    if (ip) form.set("remoteip", ip);
+    let verdict = {};
+    try {
+      const v = await fetch("https://challenges.cloudflare.com/turnstile/v0/siteverify", { method: "POST", body: form });
+      verdict = await v.json();
+    } catch {}
+    if (!verdict.success) return json({ ok: false, error: "captcha" }, 400);
+  }
+
   const name = clip(data.name, 120);
   const email = clip(data.email, 160);
   const country = clip(data.country, 80);
