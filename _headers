@@ -1,0 +1,5 @@
+# Keep the *.pages.dev copies (and previews) out of search engines; the real site is meshfreehernia.org
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex
